@@ -3,6 +3,19 @@
   <head>
     <meta charset="UTF-8" />
 
+    <script>
+      (function () {
+        try {
+          const savedTheme = localStorage.getItem("theme");
+          // Agar dark saqlangan bo'lsa yoki birinchi marta kirayotgan bo'lsa (tanlovga qarab)
+          if (savedTheme === "dark") {
+            document.documentElement.style.backgroundColor = "#0b0f1a";
+            document.documentElement.classList.add("dark-mode-init");
+          }
+        } catch (e) {}
+      })();
+    </script>
+
     <meta
       name="google-site-verification"
       content="BTjaEooRVucSuC6bf6VGgIQnzfQG6kNZZ3kxqrCl0Cc"
@@ -17,6 +30,13 @@
       name="description"
       content="Toshkent shahri Yangihayot tumanidagi 332-sonli umumta'lim maktabining rasmiy vizitka sayti."
     />
+
+    <style>
+      /* React yuklanguncha oq rang chiqmasligi uchun qat'iy qoida */
+      .dark-mode-init {
+        background-color: #0b0f1a !important;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

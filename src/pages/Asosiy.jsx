@@ -23,10 +23,12 @@ import "swiper/css/pagination";
 import "aos/dist/aos.css";
 import Footer from "../components/Footer";
 
-const Asosiy = () => {
+// DIQQAT: isDark va setIsDark props sifatida qabul qilindi
+const Asosiy = ({ isDark, setIsDark }) => {
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
+
   const yonalishlar = [
     {
       title: "Biznes va Menejment",
@@ -56,10 +58,7 @@ const Asosiy = () => {
     },
   ];
 
-  // ... (images va yonalishlar arraylari o'zgarishsiz qoladi)
-
   return (
-    // overflow-x-hidden - bu sahifani o'ngga surilib ketishidan saqlaydi
     <div className="w-full max-w-full overflow-x-hidden space-y-6 md:space-y-12">
       {/* TOP BAR */}
       <div
@@ -71,11 +70,27 @@ const Asosiy = () => {
           <input
             type="text"
             placeholder="Qidiruv..."
-            className="w-full pl-11 pr-4 py-3 rounded-full bg-white border border-gray-100 shadow-sm focus:outline-none"
+            className="w-full pl-11 pr-4 py-3 rounded-full shadow-sm focus:outline-none transition-all"
+            style={{
+              backgroundColor: "var(--bg-card)",
+              color: "var(--text-color)",
+              border: "1px solid var(--border-color)",
+            }}
           />
         </div>
-        <button className="hidden md:flex items-center gap-2 bg-white px-6 py-3 rounded-xl shadow-sm border border-gray-100 text-xs font-bold uppercase tracking-widest">
-          Tungi rejim <FaMoon className="text-blue-600" />
+
+        {/* TUNGI REJIM TUGMASI */}
+        <button
+          onClick={() => setIsDark(!isDark)}
+          className="flex items-center gap-2 px-6 py-3 rounded-xl shadow-sm border text-[10px] font-bold uppercase tracking-widest transition-all hover:scale-105 active:scale-95"
+          style={{
+            backgroundColor: "var(--bg-card)",
+            color: "var(--text-color)",
+            borderColor: "var(--border-color)",
+          }}
+        >
+          {isDark ? "Kunduzgi rejim" : "Tungi rejim"}
+          <FaMoon className={isDark ? "text-yellow-400" : "text-blue-600"} />
         </button>
       </div>
 
@@ -89,7 +104,6 @@ const Asosiy = () => {
           autoplay={{ delay: 3000, disableOnInteraction: false }}
           pagination={{ clickable: true }}
           loop={true}
-          // width: 100% va max-width ni qat'iy belgilaymiz
           className="h-48 sm:h-72 md:h-[500px] w-full"
           style={{ width: "100%" }}
         >
@@ -99,19 +113,19 @@ const Asosiy = () => {
                 src={Rasm1}
                 alt="Maktab hayoti"
                 className="w-full h-full object-cover select-none"
-                // Rasm chetdan chiqib ketmasligi uchun:
                 style={{ minWidth: "100%" }}
               />
             </div>
           </SwiperSlide>
-
-         
         </Swiper>
       </div>
 
       {/* YO'NALISHLAR */}
       <section className="px-2">
-        <h2 className="text-center text-lg md:text-xl font-black mb-8 uppercase tracking-widest text-gray-800">
+        <h2
+          className="text-center text-lg md:text-xl font-black mb-8 uppercase tracking-widest"
+          style={{ color: "var(--text-color)" }}
+        >
           Maktabdagi yo'nalishlar
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -120,34 +134,43 @@ const Asosiy = () => {
               key={i}
               data-aos="fade-up"
               data-aos-delay={i * 50}
-              className="flex items-center p-5 bg-white rounded-[20px] shadow-sm border border-gray-50
-                         hover:border-blue-200 hover:shadow-xl hover:shadow-blue-50 transition-all cursor-pointer group"
+              className="flex items-center p-5 rounded-[20px] shadow-sm transition-all cursor-pointer group"
+              style={{
+                backgroundColor: "var(--bg-card)",
+                border: "1px solid var(--border-color)",
+              }}
             >
               <div
                 className={`p-4 rounded-2xl text-2xl mr-5 transition-transform group-hover:scale-110 ${item.color}`}
               >
                 {item.icon}
               </div>
-              <span className="font-black text-gray-800 text-xs sm:text-sm uppercase tracking-wider">
+              <span
+                className="font-black text-xs sm:text-sm uppercase tracking-wider"
+                style={{ color: "var(--text-color)" }}
+              >
                 {item.title}
               </span>
             </div>
           ))}
         </div>
       </section>
+
+      {/* STATISTIKA SARLAVHASI */}
       <h2
-        className="text-center text-lg sm:text-xl font-black mb-8 uppercase tracking-[0.2em] text-gray-800"
+        className="text-center text-lg sm:text-xl font-black mb-8 uppercase tracking-[0.2em]"
+        style={{ color: "var(--text-color)" }}
         data-aos="fade-up"
       >
         Maktab statistikasi
       </h2>
-      {/* STATISTIKA - BU YERDA WIDTH MUAMMOSI KO'P BO'LADI */}
+
+      {/* STATISTIKA BLOKI */}
       <section className="px-2">
         <div
           className="bg-blue-600 rounded-[30px] md:rounded-[50px] p-8 md:p-16 text-white 
                         grid grid-cols-2 lg:grid-cols-4 gap-8 shadow-2xl relative overflow-hidden"
         >
-          {/* StatItem komponentlari */}
           <StatItem
             icon={<FaGraduationCap />}
             count="3000+"
@@ -172,7 +195,6 @@ const Asosiy = () => {
   );
 };
 
-// StatItem ichidagi ikonkalarni o'lchamini chegaralash
 const StatItem = ({ icon, count, label }) => (
   <div className="flex flex-col items-center text-center gap-2">
     <div className="text-3xl md:text-5xl mb-2">{icon}</div>

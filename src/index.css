@@ -1,1 +1,29 @@
 @import "tailwindcss";
+/* Standart (Light) rejim ranglari */
+:root {
+  --bg-color: #ffffff; /* gray-50 */
+  --card-bg: #ffffff;
+  --text-main: #001635; /* gray-800 */
+  --border-color: #ffffff; /* gray-100 */
+}
+
+/* Dark rejim ranglari */
+[data-theme="dark"] {
+  --bg-color: #0f172a; /* slate-900 */
+  --card-bg: #1e293b; /* slate-800 */
+  --text-main: #ffffff; /* slate-50 */
+  --border-color: #334155; /* slate-700 */
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  transition: all 0.3s ease;
+}
+html,
+body {
+  background-color: var(--bg-color);
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}

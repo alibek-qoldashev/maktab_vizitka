@@ -13,10 +13,7 @@ import {
   FaTimes, // Yopish ikonkasi
 } from "react-icons/fa";
 
-const Sidebar = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false); // Desktop uchun
-  const [isOpen, setIsOpen] = useState(false); // Mobil menyu uchun
-
+const Sidebar = ({ isCollapsed, setIsCollapsed, isOpen, isDark }) => {
   const menuItems = [
     { path: "/", name: "BOSH SAHIFA", icon: <FaHome /> },
     { path: "/news", name: "YANGILIKLAR", icon: <FaRegNewspaper /> },
@@ -47,26 +44,40 @@ const Sidebar = () => {
       {/* 3. ASOSIY SIDEBAR */}
       <aside
         className={`
-          fixed top-0 left-0 h-screen bg-white z-[1002] border-r border-gray-100 
-          transition-all duration-300 ease-in-out
-          
-          /* Desktop o'lchamlari */
-          ${isCollapsed ? "lg:w-[80px]" : "lg:w-[280px]"}
-          
-          /* Mobil holati: yopiq bo'lsa chapga -100% suriladi */
-          ${isOpen ? "translate-x-0 w-[280px]" : "-translate-x-full lg:translate-x-0"}
-        `}
+    fixed top-0 left-0 h-screen z-[1002] border-r
+    transition-all duration-300 ease-in-out
+    
+    /* Desktop o'lchamlari */
+    ${isCollapsed ? "lg:w-[80px]" : "lg:w-[280px]"}
+    
+    /* Mobil holati */
+    ${isOpen ? "translate-x-0 w-[280px]" : "-translate-x-full lg:translate-x-0"}
+  `}
+        style={{
+          backgroundColor: "var(--bg-card)",
+          borderColor: "var(--border-color)",
+          // Sidebar uchun o'ng tomonga yo'naltirilgan juda yumshoq va keng shadow
+          boxShadow: isDark
+            ? "10px 0 40px -15px rgba(0, 0, 0, 0.5)"
+            : "10px 0 40px -15px rgba(0, 0, 0, 0.08)",
+        }}
       >
-        {/* Desktop Collapse Tugmasi (Faqat Lg ekrandan kattada ko'rinadi) */}
+        {/* Desktop Collapse Tugmasi */}
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="hidden lg:flex absolute -right-3 top-10 bg-blue-600 text-white p-1 rounded-full 
-                     border-2 border-white hover:scale-110 transition-transform shadow-md"
+          className="hidden lg:flex absolute -right-3 top-10 bg-blue-600 text-white p-1.5 rounded-full 
+               transition-all duration-300 hover:bg-blue-700 hover:scale-110 active:scale-90"
+          style={{
+            // Tugma fonga "cho'kib" turishi uchun fon rangi bilan border beramiz
+            border: `2px solid var(--bg-card)`,
+            // Tugma uchun moviyroq va yumshoqroq shadow
+            boxShadow: "0 4px 12px rgba(37, 99, 235, 0.35)",
+          }}
         >
           {isCollapsed ? (
-            <FaChevronRight size={12} />
+            <FaChevronRight size={10} />
           ) : (
-            <FaChevronLeft size={12} />
+            <FaChevronLeft size={10} />
           )}
         </button>
 
@@ -75,8 +86,14 @@ const Sidebar = () => {
           <div
             className={`transition-all duration-300 ${isCollapsed ? "lg:opacity-0 lg:invisible lg:h-0" : "opacity-100 visible"}`}
           >
-            <h2 className="text-center text-[11px] font-bold text-gray-800 uppercase leading-tight">
-              Toshkent shahri 332-sonli umumta'lim maktabi
+            <h2
+              className="text-center text-[10px] font-extrabold uppercase leading-tight tracking-[0.1em]"
+              style={{
+                color: "var(--text-color)",
+                opacity: 0.85, // Matnni biroz yumshoqroq qilish uchun
+              }}
+            >
+              Toshkent shahri 332-sonli <br /> umumta'lim maktabi
             </h2>
           </div>
           {isCollapsed && (
@@ -100,7 +117,7 @@ const Sidebar = () => {
                 ${
                   isActive
                     ? "bg-blue-600 text-white shadow-lg shadow-blue-200"
-                    : "text-gray-500 hover:bg-gray-50 hover:text-blue-600"
+                    : "text-gray-400 hover:bg-gray-50 hover:text-blue-600"
                 }
               `}
             >

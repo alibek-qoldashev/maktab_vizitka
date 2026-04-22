@@ -7,7 +7,8 @@ import Rasm from "../assets/robo.png";
 import Rasm2 from "../assets/rasm5.jpg";
 import malaka from "../assets/malaka.jpg";
 
-const Yangiliklar = () => {
+// isDark va setIsDark props sifatida qabul qilinadi
+const Yangiliklar = ({ isDark, setIsDark }) => {
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -21,7 +22,7 @@ const Yangiliklar = () => {
       date: "2026-YIL 16-FEVRAL",
       dateColor: "bg-blue-600",
       title: "MAKTABIMIZDA ZAMONAVIY ROBOTEXNIKA XONASI OCHILDI",
-      image: Rasm , // Robototexnika xonasi rasmi
+      image: Rasm,
       desc: "Bizning maktabda yangi Robotic Lab xonasi foydalanishga topshirildi. Bu shunchaki xona emas, balki g'oyalar va innovatsiyalar markazidir.",
       quote:
         "Bugungi texnologiya asrida dasturlash va robototexnikani o'rganish - muvaffaqiyat kalitidir.",
@@ -50,7 +51,7 @@ const Yangiliklar = () => {
     <div className="w-full space-y-8 overflow-x-hidden">
       {/* TOP BAR */}
       <div
-        className="flex flex-col sm:flex-row items-center justify-between gap-4"
+        className="flex flex-col sm:flex-row items-center justify-between gap-4 px-2"
         data-aos="fade-down"
       >
         <div className="relative w-full sm:max-w-md">
@@ -58,17 +59,34 @@ const Yangiliklar = () => {
           <input
             type="text"
             placeholder="Qidiruv..."
-            className="w-full pl-12 pr-4 py-3 rounded-full bg-white shadow-sm border border-gray-100 focus:border-blue-300 focus:outline-none"
+            className="w-full pl-12 pr-4 py-3 rounded-full shadow-sm focus:outline-none transition-all"
+            style={{
+              backgroundColor: "var(--bg-card)",
+              color: "var(--text-color)",
+              border: "1px solid var(--border-color)",
+            }}
           />
         </div>
-        <button className="flex items-center gap-2 bg-white px-6 py-3 rounded-xl shadow-sm border border-gray-100 font-bold text-gray-700 text-xs uppercase tracking-widest">
-          Tungi rejim <FaMoon className="text-blue-600" />
+        <button
+          onClick={() => setIsDark(!isDark)}
+          className="flex items-center gap-2 px-6 py-3 rounded-xl shadow-sm border font-bold text-xs uppercase tracking-widest transition-all hover:scale-105 active:scale-95"
+          style={{
+            backgroundColor: "var(--bg-card)",
+            color: "var(--text-color)",
+            borderColor: "var(--border-color)",
+          }}
+        >
+          {isDark ? "Kunduzgi rejim" : "Tungi rejim"}
+          <FaMoon className={isDark ? "text-yellow-400" : "text-blue-600"} />
         </button>
       </div>
 
       {/* YANGILIKLAR RO'YXATI */}
-      <section className="space-y-12">
-        <h1 className="text-xl md:text-2xl font-black text-gray-800 uppercase tracking-widest border-b-2 border-blue-600 inline-block pb-2">
+      <section className="space-y-12 px-2">
+        <h1
+          className="text-xl md:text-2xl font-black uppercase tracking-widest border-b-2 border-blue-600 inline-block pb-2"
+          style={{ color: "var(--text-color)" }}
+        >
           Yangiliklar
         </h1>
 
@@ -83,38 +101,43 @@ const Yangiliklar = () => {
               </div>
 
               {/* Sarlavha */}
-              <h2 className="text-lg md:text-2xl font-black text-gray-900 leading-tight uppercase max-w-4xl">
+              <h2
+                className="text-lg md:text-2xl font-black leading-tight uppercase max-w-4xl"
+                style={{ color: "var(--text-color)" }}
+              >
                 {news.title}
               </h2>
 
               {/* Rasm yoki Video */}
               <div className="relative rounded-2xl md:rounded-[40px] overflow-hidden shadow-xl max-w-5xl">
                 <img
-                  src={news.isVideo ? news.videoThumb : news.image}
+                  src={news.image}
                   alt="news"
                   className="w-full h-[250px] md:h-[500px] object-cover transition-transform duration-700 hover:scale-105"
                 />
-                {news.isVideo && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                    <div className="w-16 h-16 md:w-20 md:h-20 bg-red-600 rounded-full flex items-center justify-center text-white shadow-2xl animate-pulse cursor-pointer">
-                      <FaPlay size={30} className="ml-1" />
-                    </div>
-                  </div>
-                )}
               </div>
 
               {/* Matn va Tavsif */}
               <div className="max-w-4xl space-y-4">
-                <p className="text-gray-600 text-sm md:text-base leading-relaxed font-medium uppercase text-justify">
+                <p
+                  className="text-sm md:text-base leading-relaxed font-medium uppercase text-justify"
+                  style={{ color: "var(--text-color)", opacity: 0.8 }}
+                >
                   {news.desc}
                 </p>
                 {news.quote && (
-                  <p className="text-gray-900 font-black text-sm md:text-base leading-relaxed uppercase">
+                  <p
+                    className="font-black text-sm md:text-base leading-relaxed uppercase"
+                    style={{ color: "var(--text-color)" }}
+                  >
                     “{news.quote}”
                   </p>
                 )}
                 {news.id === 1 && (
-                  <p className="text-gray-600 text-sm md:text-base leading-relaxed font-medium uppercase">
+                  <p
+                    className="text-sm md:text-base leading-relaxed font-medium uppercase"
+                    style={{ color: "var(--text-color)", opacity: 0.8 }}
+                  >
                     Yangi xonadagi sharoitlar o'quvchilarda sun'iy intellekt va
                     muhandislik olamiga sho'ng'ishga yordam beradi. Biz bilan
                     birga kelajakni quring!
@@ -123,13 +146,16 @@ const Yangiliklar = () => {
               </div>
 
               {/* Ajratuvchi chiziq */}
-              <div className="w-full h-[1px] bg-gray-100 pt-8"></div>
+              <div
+                className="w-full h-[1px] pt-8"
+                style={{ borderTop: "1px solid var(--border-color)" }}
+              ></div>
             </article>
           ))}
         </div>
       </section>
 
-      <Footer />
+      <Footer isDark={isDark} />
     </div>
   );
 };

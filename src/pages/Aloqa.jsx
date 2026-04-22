@@ -13,7 +13,8 @@ import {
 } from "react-icons/fa";
 import Footer from "../components/Footer";
 
-const Aloqa = () => {
+const Aloqa = ({ isDark, setIsDark }) => {
+  // isDark va setIsDark propslari qo'shildi
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -46,7 +47,7 @@ const Aloqa = () => {
     <div className="w-full space-y-8 overflow-x-hidden">
       {/* TOP BAR */}
       <div
-        className="flex flex-col sm:flex-row items-center justify-between gap-4"
+        className="flex flex-col sm:flex-row items-center justify-between gap-4 px-2"
         data-aos="fade-down"
       >
         <div className="relative w-full sm:max-w-md">
@@ -54,37 +55,73 @@ const Aloqa = () => {
           <input
             type="text"
             placeholder="qidiruv..."
-            className="w-full pl-12 pr-4 py-3 rounded-full bg-white shadow-sm border border-gray-100 focus:border-blue-300 focus:outline-none"
+            className="w-full pl-12 pr-4 py-3 rounded-full shadow-sm focus:outline-none transition-all"
+            style={{
+              backgroundColor: "var(--bg-card)",
+              color: "var(--text-color)",
+              border: "1px solid var(--border-color)",
+            }}
           />
         </div>
-        <button className="flex items-center gap-2 bg-white px-6 py-2.5 rounded-xl shadow-sm border border-gray-100 font-bold text-gray-700 text-[10px] uppercase tracking-widest">
-          Tungi rejim <FaMoon className="text-blue-600" />
+        <button
+          onClick={() => setIsDark(!isDark)}
+          className="flex items-center gap-2 px-6 py-2.5 rounded-xl shadow-sm border font-bold text-[10px] uppercase tracking-widest transition-all hover:scale-105 active:scale-95"
+          style={{
+            backgroundColor: "var(--bg-card)",
+            color: "var(--text-color)",
+            borderColor: "var(--border-color)",
+          }}
+        >
+          {isDark ? "Kunduzgi rejim" : "Tungi rejim"}
+          <FaMoon className={isDark ? "text-yellow-400" : "text-blue-600"} />
         </button>
       </div>
 
       {/* PAGE TITLE */}
-      <div className="border-b border-gray-100 pb-4" data-aos="fade-right">
-        <h1 className="text-xl md:text-2xl font-black text-gray-800 uppercase tracking-widest">
+      <div
+        className="pb-4 px-2"
+        style={{ borderBottom: "1px solid var(--border-color)" }}
+        data-aos="fade-right"
+      >
+        <h1
+          className="text-xl md:text-2xl font-black uppercase tracking-widest"
+          style={{ color: "var(--text-color)" }}
+        >
           Aloqa
         </h1>
       </div>
 
       {/* CONTACT CONTENT SECTION */}
-      <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start py-6">
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start py-6 px-2">
         {/* LEFT COLUMN: CONTACT CARDS & SOCIALS */}
         <div className="space-y-6" data-aos="fade-right">
           <div className="space-y-4">
             {contactDetails.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center bg-gray-50/50 rounded-2xl border-l-4 border-blue-600 p-6 shadow-sm hover:shadow-md transition-shadow"
+                className="flex items-center rounded-2xl border-l-4 border-blue-600 p-6 shadow-sm hover:shadow-md transition-all"
+                style={{
+                  backgroundColor: "var(--bg-card)",
+                  borderColor: "blue-600", // Chap tarafdagi ko'k chiziq qoladi
+                }}
               >
-                <div className="text-2xl text-gray-900 mr-6">{item.icon}</div>
+                <div
+                  className="text-2xl mr-6"
+                  style={{ color: "var(--text-color)" }}
+                >
+                  {item.icon}
+                </div>
                 <div>
-                  <h3 className="text-[11px] font-black text-gray-900 tracking-widest uppercase">
+                  <h3
+                    className="text-[11px] font-black tracking-widest uppercase"
+                    style={{ color: "var(--text-color)" }}
+                  >
                     {item.title}
                   </h3>
-                  <p className="text-[10px] font-bold text-gray-500 uppercase mt-1 leading-tight">
+                  <p
+                    className="text-[10px] font-bold uppercase mt-1 leading-tight"
+                    style={{ color: "var(--text-color)", opacity: 0.6 }}
+                  >
                     {item.info}
                   </p>
                 </div>
@@ -108,14 +145,18 @@ const Aloqa = () => {
 
         {/* RIGHT COLUMN: MAP */}
         <div
-          className="w-full h-[300px] md:h-[400px] rounded-3xl overflow-hidden shadow-xl border-4 border-white"
+          className="w-full h-[300px] md:h-[400px] rounded-3xl overflow-hidden shadow-xl border-4 transition-all"
+          style={{ borderColor: "var(--bg-card)" }} // MacBook dizayniga mos border
           data-aos="fade-left"
         >
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1436.6782742466735!2d69.19546283841055!3d41.21250206275171!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae61c49642ca11%3A0x4d8ba2f47a08161b!2s332nd%20school!5e1!3m2!1sen!2s!4v1776795723917!5m2!1sen!2s"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12000!2d69.2!3d41.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDEyJzAwLjAiTiA2OcKwMTInMDAuMCJF!5e0!3m2!1suz!2s!4v123456789" // Test uchun to'g'ri link
             width="100%"
             height="100%"
-            style={{ border: 0 }}
+            style={{
+              border: 0,
+              filter: isDark ? "invert(90%) hue-rotate(180deg)" : "none",
+            }} // Qorong'u rejimda xaritani ham qoraytirish
             allowFullScreen=""
             loading="lazy"
             title="School Location"
@@ -123,7 +164,7 @@ const Aloqa = () => {
         </div>
       </section>
 
-      <Footer />
+      <Footer isDark={isDark} />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"; // useState qo'shildi
+import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { FaSearch, FaMoon, FaPlay } from "react-icons/fa";
@@ -6,8 +6,8 @@ import Footer from "../components/Footer";
 import oo from "../assets/00.jpg";
 import buld from "../assets/buld.jpg";
 
-const MaktabTarixi = () => {
-  // Qaysi video ID ochiqligini saqlash uchun state
+// isDark va setIsDark propslarini qabul qilamiz
+const MaktabTarixi = ({ isDark, setIsDark }) => {
   const [activeVideo, setActiveVideo] = useState(null);
 
   useEffect(() => {
@@ -28,8 +28,8 @@ const MaktabTarixi = () => {
       date: "2024-YIL 3-DEKABR",
       dateColor: "bg-green-600",
       title: "3-DEKABR “NOGIRONLAR KUNI”DAN LAVHA",
-      videoId: "Kqmj58816RE", // Video ID
-      videoThumb: "https://img.youtube.com/vi/Kqmj58816RE/maxresdefault.jpg", // Avtomatik rasm oladi
+      videoId: "Kqmj58816RE",
+      videoThumb: "https://img.youtube.com/vi/Kqmj58816RE/maxresdefault.jpg",
       isVideo: true,
       desc: "Toshkent shahar Yangihayot tumani 332-maktab direktori Lola Miralimova boshchiligida ijtimoiy tadbirlar muntazam o'tkazib kelinadi.",
     },
@@ -37,8 +37,8 @@ const MaktabTarixi = () => {
       id: 4,
       date: "2022-YIL",
       dateColor: "bg-orange-500",
-      title: "MAKTABIMIZ DAN QISQA LAVHALAR", 
-      videoId: "ui2hyf0s8Cg", // Bu yerga ikkinchi video ID sini qo'ying
+      title: "MAKTABIMIZ DAN QISQA LAVHALAR",
+      videoId: "ui2hyf0s8Cg",
       videoThumb:
         "https://api.maktab.uz/storage/uploads/schools/1/school_photo.jpg",
       isVideo: true,
@@ -58,16 +58,38 @@ const MaktabTarixi = () => {
           <input
             type="text"
             placeholder="qidiruv..."
-            className="w-full pl-12 pr-4 py-3 rounded-full bg-white shadow-sm border border-gray-100 focus:outline-none"
+            className="w-full pl-12 pr-4 py-3 rounded-full shadow-sm focus:outline-none transition-all"
+            style={{
+              backgroundColor: "var(--bg-card)",
+              color: "var(--text-color)",
+              border: "1px solid var(--border-color)",
+            }}
           />
         </div>
-        <button className="hidden sm:flex items-center gap-2 bg-white px-6 py-2.5 rounded-xl shadow-sm border border-gray-100 font-bold text-gray-700 text-[10px] uppercase tracking-widest">
-          Tungi rejim <FaMoon className="text-blue-600" />
+        <button
+          onClick={() => setIsDark(!isDark)}
+          className="hidden sm:flex items-center gap-2 px-6 py-2.5 rounded-xl shadow-sm border font-bold text-[10px] uppercase tracking-widest transition-all hover:scale-105 active:scale-95"
+          style={{
+            backgroundColor: "var(--bg-card)",
+            color: "var(--text-color)",
+            borderColor: "var(--border-color)",
+          }}
+        >
+          {isDark ? "Kunduzgi rejim" : "Tungi rejim"}{" "}
+          <FaMoon className={isDark ? "text-yellow-400" : "text-blue-600"} />
         </button>
       </div>
 
-      <div className="border-b border-gray-100 pb-4 px-2" data-aos="fade-right">
-        <h1 className="text-xl md:text-2xl font-black text-gray-800 uppercase tracking-widest">
+      {/* PAGE TITLE */}
+      <div
+        className="pb-4 px-2"
+        style={{ borderBottom: "1px solid var(--border-color)" }}
+        data-aos="fade-right"
+      >
+        <h1
+          className="text-xl md:text-2xl font-black uppercase tracking-widest"
+          style={{ color: "var(--text-color)" }}
+        >
           Maktab Tarixi
         </h1>
       </div>
@@ -77,25 +99,38 @@ const MaktabTarixi = () => {
         {historyData.map((item) => (
           <article
             key={item.id}
-            className="flex flex-col space-y-6 relative border-l-4 border-gray-100 pl-6 md:pl-10 ml-2"
+            className="flex flex-col space-y-6 relative border-l-4 pl-6 md:pl-10 ml-2"
+            style={{ borderColor: "var(--border-color)" }}
             data-aos="fade-up"
           >
+            {/* Timeline Dot */}
             <div
-              className={`absolute -left-[10px] top-0 w-4 h-4 rounded-full ${item.dateColor} border-4 border-white`}
+              className={`absolute -left-[10px] top-0 w-4 h-4 rounded-full ${item.dateColor} border-4`}
+              style={{ borderColor: "var(--bg-card)" }}
             ></div>
+
             <div
               className={`${item.dateColor} inline-block self-start px-4 py-1.5 rounded-md text-white text-[10px] font-bold`}
             >
               {item.date}
             </div>
-            <h2 className="text-lg md:text-xl font-black text-gray-900 uppercase leading-tight max-w-3xl">
+
+            <h2
+              className="text-lg md:text-xl font-black uppercase leading-tight max-w-3xl"
+              style={{ color: "var(--text-color)" }}
+            >
               {item.title}
             </h2>
 
-            {/* Media Content - TO'G'RILANGAN QISM */}
-            <div className="relative rounded-2xl md:rounded-[30px] overflow-hidden shadow-lg max-w-4xl w-full bg-gray-100">
+            {/* Media Content */}
+            <div
+              className="relative rounded-2xl md:rounded-[30px] overflow-hidden shadow-lg max-w-4xl w-full border"
+              style={{
+                backgroundColor: "var(--bg-card)",
+                borderColor: "var(--border-color)",
+              }}
+            >
               {item.isVideo && activeVideo === item.id ? (
-                /* Agar video bosilsa, iframe shu yerda ochiladi */
                 <div className="relative w-full pb-[56.25%] h-0">
                   <iframe
                     className="absolute top-0 left-0 w-full h-full"
@@ -107,7 +142,6 @@ const MaktabTarixi = () => {
                   ></iframe>
                 </div>
               ) : (
-                /* Rasm va Play tugmasi (Birinchi usul) */
                 <div
                   className="relative group cursor-pointer"
                   onClick={() => item.isVideo && setActiveVideo(item.id)}
@@ -128,14 +162,17 @@ const MaktabTarixi = () => {
               )}
             </div>
 
-            <p className="text-gray-600 text-[11px] md:text-[13px] font-bold leading-relaxed uppercase max-w-4xl text-justify">
+            <p
+              className="text-[11px] md:text-[13px] font-bold leading-relaxed uppercase max-w-4xl text-justify"
+              style={{ color: "var(--text-color)", opacity: 0.7 }}
+            >
               {item.desc}
             </p>
           </article>
         ))}
       </section>
 
-      <Footer />
+      <Footer isDark={isDark} />
     </div>
   );
 };
