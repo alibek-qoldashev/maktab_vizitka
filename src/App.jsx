@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"; // useEffect qo'shildi
+import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Asosiy from "./pages/Asosiy";
@@ -9,9 +9,8 @@ import Aloqa from "./pages/Aloqa";
 import Natijalarimiz from "./pages/Natijalarimiz";
 
 const App = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
-
   // DARK MODE STATE
   const [isDark, setIsDark] = useState(
     localStorage.getItem("theme") === "dark",
@@ -29,17 +28,16 @@ const App = () => {
   }, [isDark]);
 
   return (
-    // bg-[#f4f7fe] ni var(--bg-main) ga almashtiramiz
     <div
       className="flex min-h-screen transition-colors duration-300"
       style={{ backgroundColor: "var(--bg-main)" }}
     >
       <Sidebar
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
         isCollapsed={isCollapsed}
         setIsCollapsed={setIsCollapsed}
-        isMobileOpen={isMobileOpen}
-        setIsMobileOpen={setIsMobileOpen}
-        isDark={isDark} // Sidebar-ga ham uzatdik
+        isDark={isDark}
       />
 
       <main
@@ -50,7 +48,6 @@ const App = () => {
       >
         <div className="max-w-[1400px] mx-auto">
           <Routes>
-            {/* Sahifalarga isDark va setIsDark ni props sifatida uzatamiz */}
             <Route
               path="/"
               element={<Asosiy isDark={isDark} setIsDark={setIsDark} />}
